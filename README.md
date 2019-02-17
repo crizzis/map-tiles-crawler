@@ -49,7 +49,3 @@ crawler.crawl({
 | progress | callback after each tile download |
 | success | callback after all tiles were downloaded successfully |
 | error | callback after a error happened |
-
-## Contact and support
-
-Web: [www.beyondit.at](http://www.beyondit.at)

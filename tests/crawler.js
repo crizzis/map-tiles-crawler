@@ -12,7 +12,7 @@ describe('Crawler', function() {
     });
 
     it('Download random file to folder', function(done) {
-        var source = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/800px-FullMoon2010.jpg";
+        var source = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/800px-FullMoon2010.jpg#test";
         var target = './.tmp/example/moon.jpg';
 
         crawler.downloadFile(source, target)
@@ -23,13 +23,13 @@ describe('Crawler', function() {
     });
 
     it('Replace paths with tile variables', function() {
-        var paths = crawler.getPaths('http://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg', {
+        var paths = crawler.getPaths('http://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg#abc', {
             x : "x-val" ,
             y : "y-val" ,
             z : "z-val"
         }, './.tmp/');
 
-        expect(paths.source).toEqual('http://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/z-val/y-val/x-val.jpeg');
+        expect(paths.source).toEqual('http://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/z-val/y-val/x-val.jpeg#abc');
         expect(paths.target).toEqual('./.tmp/z-val/y-val/x-val.jpeg');
     });
 
@@ -38,7 +38,7 @@ describe('Crawler', function() {
         var i = 0;
 
         crawler.crawl({
-            url : 'http://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg' ,
+            url : 'http://maps.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg#abc' ,
             targetFolder : './.tmp/' ,
             level : 18 ,
             topLeft: [47.58237709, 12.16813087] ,

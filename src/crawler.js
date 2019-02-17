@@ -7,7 +7,7 @@ const path = require('path');
 function Crawler () {
     this.tileSize = 256;
     this.urlTemplate = /\{ *([xyz]) *\}/g;   
-    this.pathTemplate = /\{ *([xyz]) *\}\/\{ *([xyz]) *\}\/\{ *([xyz]) *\}(\.[a-zA-Z]{3,4})/;
+    this.pathTemplate = /\{ *([xyz]) *\}.*?\{ *([xyz]) *\}.*?\{ *([xyz]) *\}.*?(\.[a-zA-Z]{3,4})/;
 }
 
 Crawler.prototype.selectProtocol = function(url) {
@@ -54,11 +54,15 @@ Crawler.prototype.calculateRect = function(topLeft, bottomRight, level) {
 };
 
 Crawler.prototype.getPaths = function (url, tile, targetPrefix = '') {
+    var result = {source:null, target:null};
     var path = url.match(this.pathTemplate);
-    return {
-        source : this.replacePath(url, tile) ,
-        target : targetPrefix + this.replacePath(path[0], tile)
-    };
+
+    if (path) {
+        result.source = this.replacePath(url, tile);
+        result.target = targetPrefix + this.replacePath("{" + path[1] + "}/{" + path[2] + "}/{" + path[3] + "}" + path[4], tile)
+    }
+
+    return result;
 };
 
 Crawler.prototype.replacePath = function(url, data) {

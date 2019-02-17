@@ -1,26 +1,26 @@
 {
   "name": "map-tiles-crawler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Memory efficient and synchronous downloader of map tiles. Allows for a fast and easy approach to make map tiles (from a WMS) available offline.",
   "main": "index.js",
   "bin": {
-    "mtc" : "./bin/mtc.js"
+    "mtc": "./bin/mtc.js"
   },
-    "bugs" : {
-      "url" : "https://github.com/beyondit/map-tiles-crawler/issues"
+  "bugs": {
+    "url": "https://github.com/stefanhuber/map-tiles-crawler/issues"
   },
   "scripts": {
     "start": "node ./bin/mtc.js",
     "test": "jasmine ./tests/index.js"
   },
-  "author": "Stefan Huber <stefan.huber@beyondit.at> (http://www.beyondit.at)",
+  "author": "Stefan Huber <mail@stefanhuber.at> (https://stefanhuber.at)",
   "license": "BSD-2-Clause",
   "devDependencies": {
     "jasmine": "^2.5.3",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
-    "commander": "^2.9.0",
+    "commander": "^2.19.0",
     "mkdirp": "^0.5.1"
   }
 }
