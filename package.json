@@ -1,6 +1,6 @@
 {
   "name": "map-tiles-crawler",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": ["map", "tiles", "crawler", "web mapping"],
   "description": "Memory efficient and synchronous downloader of map tiles. Allows for a fast and easy approach to make map tiles (from a WMS) available offline.",
   "main": "index.js",
