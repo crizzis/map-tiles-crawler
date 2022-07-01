@@ -3,10 +3,11 @@ const http = require('http');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const path = require('path');
+const url = require('url');
 
 function Crawler () {
     this.tileSize = 256;
-    this.urlTemplate = /\{ *([xyz]) *\}/g;   
+    this.urlTemplate = /\{ *([xyz]) *\}/g;
     this.pathTemplate = /\{ *([xyz]) *\}.*?\{ *([xyz]) *\}.*?\{ *([xyz]) *\}.*?(\.[a-zA-Z]{3,4})/;
 }
 
@@ -26,18 +27,24 @@ Crawler.prototype.downloadFile = function(source, target) {
             var dirname = path.dirname(target);
             mkdirp(dirname, (err) => {
                 var file = fs.createWriteStream(target);
-                this.selectProtocol(source).get(source, function(resp) {                    
+                const uri = url.parse(source);
+                this.selectProtocol(source).get({
+                    hostname: uri.hostname,
+                    port: uri.port,
+                    path: uri.pathname,
+                    protocol: uri.protocol,
+                    headers: { 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36' } }, function(resp) {
                     file.once('finish', () => {
                         file.close();
                         resolve();
                     });
-                    resp.pipe(file);                    
+                    resp.pipe(file);
                 });
             });
         } catch(e) {
-            reject();
+            reject(e);
         }
-    }); 
+    });
 };
 
 Crawler.prototype.calculateRect = function(topLeft, bottomRight, level) {
@@ -118,9 +125,9 @@ Crawler.prototype.crawlRect = function(rect, url, folder, current) {
 
             setTimeout(() => {
                 this.crawlRect(rect, url, folder, current);
-            }, this.wait);                     
+            }, this.wait);
         })
-        .catch(() => {
+        .catch((e) => {
             if (this.error) {
                 this.error(current);
             }
